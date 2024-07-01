@@ -1,2 +1,2 @@
-# myLibft
+# GabLibft
 My own  implementation of libft aand more...
