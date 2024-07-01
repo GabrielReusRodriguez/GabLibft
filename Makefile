@@ -6,11 +6,11 @@
 #    By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 01:34:53 by greus-ro          #+#    #+#              #
-#    Updated: 2024/07/01 22:01:58 by gabriel          ###   ########.fr        #
+#    Updated: 2024/07/01 23:22:22 by gabriel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-RST	= \033[0;39m
+RESET	= \033[0;39m
 GRAY    = \033[0;90m
 RED     = \033[0;91m
 GREEN   = \033[0;92m
@@ -20,112 +20,129 @@ MAGENTA = \033[0;95m
 CYAN    = \033[0;96m
 WHITE   = \033[0;97m
 
-BIN_DIR	=./bin
+OBJ_DIR	=./obj
 SRC_DIR	=./src
 INC_DIR	=./inc
 
 NAME	=libft.a
-CFLAGS	=-Wall -Wextra -Werror -MMD -MP
+CFLAGS	=-Wall -Wextra -Werror
+DFLAGS 	=-MMD -MP
 
 ifdef CSANITIZE
-	SANITIZE_FLAGS = -fsanitize=${CSANITIZE}
+	SANITIZE_FLAGS = -g -fsanitize=$${CSANITIZE}
 endif 
 
-CFLAGS += ${SANITIZE_FLAGS}
+# The bash variables are referenced as $$Whatever
+define compile
+    printf "%b%-46b" "$(BLUE)compiling " "$(CYAN)$(@F)$(RESET)"; \
+    $(1) > /dev/null; \
+    RESULT=$$?; \
+    if [ $$RESULT -ne 0 ]; then \
+        printf "%b\n" "$(RED)[✗]$(RESET)"; \
+    else  \
+        printf "%b\n" "$(GREEN)[✓]$(RESET)"; \
+    fi; \
+    [ $$RESULT -eq 0 ]
+endef
 
-LIBFT_SRC_FILES=	ft_atoi.c			\
-					ft_atol.c			\
-					ft_bzero.c			\
-					ft_calloc.c			\
-					ft_dtoh.c			\
-					ft_iputchar_fd.c	\
-					ft_iputendl_fd.c	\
-					ft_iputnbr_fd.c		\
-					ft_iputstr_fd.c		\
-					ft_isalnum.c		\
-					ft_isalpha.c		\
-					ft_isascii.c		\
-					ft_isdigit.c		\
-					ft_islower.c		\
-					ft_isupper.c		\
-					ft_isprint.c		\
-					ft_itoa.c			\
-					ft_memchr.c			\
-					ft_memcmp.c			\
-					ft_memcpy.c			\
-					ft_memmove.c		\
-					ft_memset.c			\
-					ft_putchar_fd.c		\
-					ft_putendl_fd.c		\
-					ft_putnbr_fd.c		\
-					ft_putstr_fd.c		\
-					ft_sfree.c			\
-					ft_split.c			\
-					ft_strchr.c			\
-					ft_strdup.c			\
-					ft_striteri.c		\
-					ft_strjoin.c		\
-					ft_strlcat.c		\
-					ft_strlcpy.c		\
-					ft_strlen.c			\
-					ft_strmapi.c		\
-					ft_strncmp.c		\
-					ft_strcmp.c			\
-					ft_strnstr.c		\
-					ft_strrchr.c		\
-					ft_istrchr.c 		\
-					ft_strtrim.c		\
-					ft_substr.c			\
-					ft_tolower.c		\
-					ft_toupper.c		\
-					ft_utoa.c
+define link
+	printf "%b%-48b" "$(YELLOW)linking " "$(CYAN)$(@F)$(RESET)"; \
+    $(1) > /dev/null; \
+    RESULT=$$?; \
+    if [ $$RESULT -ne 0 ]; then \
+        printf "%b\n" "$(RED)[✗]$(RESET)"; \
+    else  \
+        printf "%b\n" "$(GREEN)[✓]$(RESET)"; \
+    fi; \
+    [ $$RESULT -eq 0 ]
+endef
 
-BONUS_SRC_FILES=	ft_lstadd_front_bonus.c	\
-					ft_lstadd_back_bonus.c	\
-					ft_lstclear_bonus.c		\
-					ft_lstdelone_bonus.c	\
-					ft_lstiter_bonus.c		\
-					ft_lstlast_bonus.c		\
-					ft_lstmap_bonus.c		\
-					ft_lstnew_bonus.c		\
-					ft_lstsize_bonus.c		
+SRC_FILES		=	ft_atoi				\
+					ft_atol				\
+					ft_bzero			\
+					ft_calloc			\
+					ft_dtoh				\
+					ft_iputchar_fd		\
+					ft_iputendl_fd		\
+					ft_iputnbr_fd		\
+					ft_iputstr_fd		\
+					ft_isalnum			\
+					ft_isalpha			\
+					ft_isascii			\
+					ft_isdigit			\
+					ft_islower			\
+					ft_isupper			\
+					ft_isprint			\
+					ft_itoa				\
+					ft_memchr			\
+					ft_memcmp			\
+					ft_memcpy			\
+					ft_memmove			\
+					ft_memset			\
+					ft_putchar_fd		\
+					ft_putendl_fd		\
+					ft_putnbr_fd		\
+					ft_putstr_fd		\
+					ft_sfree			\
+					ft_split			\
+					ft_strchr			\
+					ft_strdup			\
+					ft_striteri			\
+					ft_strjoin			\
+					ft_strlcat			\
+					ft_strlcpy			\
+					ft_strlen			\
+					ft_strmapi			\
+					ft_strncmp			\
+					ft_strcmp			\
+					ft_strnstr			\
+					ft_strrchr			\
+					ft_istrchr 			\
+					ft_strtrim			\
+					ft_substr			\
+					ft_tolower			\
+					ft_toupper			\
+					ft_utoa
+
+BONUS_SRC_FILES=	ft_lstadd_front_bonus	\
+					ft_lstadd_back_bonus	\
+					ft_lstclear_bonus		\
+					ft_lstdelone_bonus		\
+					ft_lstiter_bonus		\
+					ft_lstlast_bonus		\
+					ft_lstmap_bonus			\
+					ft_lstnew_bonus			\
+					ft_lstsize_bonus		
 
 
-BONUS_OBJ_FILES=$(BONUS_SRC_FILES:%.c=${BIN_DIR}/%.o)
-BONUS_DEP_FILES=$(BONUS_SRC_FILES:%.c=${BIN_DIR}/%.d)
-
-LIBFT_OBJ_FILES=$(LIBFT_SRC_FILES:%.c=${BIN_DIR}/%.o)
-LIBFT_DEP_FILES=$(LIBFT_SRC_FILES:%.c=${BIN_DIR}/%.d)
+SRC	=	$(addprefix ${SRC_DIR}/, $(addsuffix .c, ${SRC_FILES} ${BONUS_SRC_FILES}))
+OBJ	=	$(addprefix ${OBJ_DIR}/, $(addsuffix .o, ${SRC_FILES} ${BONUS_SRC_FILES}))
+DEP = 	$(addprefix ${DEP_DIR}/, $(addsuffix .d, ${SRC_FILES} ${BONUS_SRC_FILES}))
 
 all:${NAME}
 
-${NAME}: ${BIN_DIR} ${LIBFT_OBJ_FILES} ${BONUS_OBJ_FILES} 
-	ar -rcs ${NAME} ${LIBFT_OBJ_FILES}
-
-${BIN_DIR}:
-	mkdir -p ${BIN_DIR}
+${NAME}: ${OBJ} 
+	@$(call link, ar -rcs ${NAME} ${OBJ})
 	
-${BIN_DIR}/%.o:${SRC_DIR}/%.c  Makefile
-	cc ${CFLAGS}  -c $< -I ${INC_DIR}  -o $@ 
+${OBJ_DIR}/%.o:${SRC_DIR}/%.c  Makefile
+	@mkdir -p $(dir $@)
+	@$(call compile, ${CC} ${CFLAGS} ${DFLAGS} ${SANITIZE_FLAGS} -c $< -I ${INC_DIR} -o $@)
 
 clean:
-	rm -f ${BIN_DIR}/*.o
-	rm -f ${BIN_DIR}/*.d
+	@rm -f ${OBJ_DIR}/*.o
+	@rm -f ${OBJ_DIR}/*.d
+	@printf "%-53b%b" "$(GRAY)$(@):" "$(GREEN)[✓]$(RESET)\n"
 
 fclean: clean 
-	rm -f ${NAME}
-	
-re: fclean all
+	@rm -f ${NAME}
+	@printf "%-53b%b" "$(GRAY)$(@):" "$(GREEN)[✓]$(RESET)\n"	
 
-#bonus:${BONUS_OBJ_FILES} ${LIBFT_OBJ_FILES}
-#	ar -rcs ${NAME} ${LIBFT_OBJ_FILES} ${BONUS_OBJ_FILES}
-#	@touch bonus
+re: fclean all
 
 norm:
 	@norminette $(SRC_DIR) $(INC_DIR) | grep -v OK \
 		|| echo "$(GREEN)Norminette: OK $(RST)"
 
--include ${LIBFT_DEP_FILES}
--include ${BONUS_DEP_FILES}
+-include ${DEP}
 
 .PHONY= all clean fclean re norm
