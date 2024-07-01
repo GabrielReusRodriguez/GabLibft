@@ -6,7 +6,7 @@
 #    By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 01:34:53 by greus-ro          #+#    #+#              #
-#    Updated: 2024/07/01 21:40:14 by gabriel          ###   ########.fr        #
+#    Updated: 2024/07/01 21:54:15 by gabriel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,10 +90,7 @@ LIBFT_DEP_FILES=$(LIBFT_SRC_FILES:%.c=${BIN_DIR}/%.d)
 
 all:${NAME}
 
--include ${LIBFT_DEP_FILES}
--include ${BONUS_DEP_FILES}
-
-${NAME}: ${LIBFT_OBJ_FILES} ${BONUS_OBJ_FILES} ${BIN_DIR}
+${NAME}: ${BIN_DIR} ${LIBFT_OBJ_FILES} ${BONUS_OBJ_FILES} 
 	ar -rcs ${NAME} ${LIBFT_OBJ_FILES}
 
 ${BIN_DIR}:
@@ -116,6 +113,10 @@ re: fclean all
 #	@touch bonus
 
 norm:
-	@norminette | grep Error || true
+	@norminette $(SRC_DIR) $(INC_DIR) | grep -v OK \
+		|| echo "$(GREEN)Norminette: OK $(RST)"
+
+-include ${LIBFT_DEP_FILES}
+-include ${BONUS_DEP_FILES}
 
 .PHONY= all clean fclean re norm
