@@ -6,10 +6,19 @@
 #    By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 01:34:53 by greus-ro          #+#    #+#              #
-#    Updated: 2024/07/01 21:54:15 by gabriel          ###   ########.fr        #
+#    Updated: 2024/07/01 22:01:58 by gabriel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+RST	= \033[0;39m
+GRAY    = \033[0;90m
+RED     = \033[0;91m
+GREEN   = \033[0;92m
+YELLOW  = \033[0;93m
+BLUE    = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN    = \033[0;96m
+WHITE   = \033[0;97m
 
 BIN_DIR	=./bin
 SRC_DIR	=./src
