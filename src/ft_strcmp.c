@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_hex.c                                    :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 19:52:41 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/03/12 23:57:22 by gabriel          ###   ########.fr       */
+/*   Created: 2024/07/01 19:19:08 by gabriel           #+#    #+#             */
+/*   Updated: 2024/07/01 21:03:32 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include "libft.h"
+#include <stddef.h>
 
-char	*ft_printf_htoa(unsigned long u_number, unsigned int up_case)
+int	ft_srcmp(const char *str1, const char *str2)
 {
-	return (ft_dtoh(u_number, up_case));
+	size_t	i;
+
+	i = 0;
+	while (str1[i] != '\0')
+	{
+		if (str1[i] - str2[i] != 0)
+			return (str1[i] - str2[i]);
+		i++;
+	}
+	return (str1[i] - str2[2]);
 }

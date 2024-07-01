@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_str.c                                    :+:      :+:    :+:   */
+/*   ft_types.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 19:09:17 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/03/12 23:41:33 by gabriel          ###   ########.fr       */
+/*   Created: 2024/03/12 22:57:44 by gabriel           #+#    #+#             */
+/*   Updated: 2024/07/01 21:11:24 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include <unistd.h>
+#ifndef FT_TYPES_H
+# define FT_TYPES_H
 
-#include "libft.h"
+# include <stdbool.h>
 
-int	ft_printf_fd_str(va_list argp, int fd)
-{
-	char	*str;
+typedef unsigned char		t_uchar;
+typedef unsigned int		t_uint;
+typedef unsigned long		t_ulong;
+typedef unsigned long long	t_ullong;
 
-	str = va_arg(argp, char *);
-	if (str == NULL)
-		return (ft_iputstr_fd("(null)",fd));
-	else
-		return(ft_iputstr_fd(str, fd));
-}
-
-int	ft_printf_str(va_list argp)
-{
-	return (ft_printf_fd_str(argp, STDOUT_FILENO));
-
-}
+#endif

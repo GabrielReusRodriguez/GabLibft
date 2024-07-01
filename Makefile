@@ -3,69 +3,110 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: greus-ro <greus-ro@student.42.fr>          +#+  +:+       +#+         #
+#    By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/04 01:34:53 by greus-ro          #+#    #+#              #
-#    Updated: 2024/02/15 21:36:10 by greus-ro         ###   ########.fr        #
+#    Updated: 2024/07/01 21:40:14 by gabriel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=libft.a
-CFLAGS=-Wall -Wextra -Werror -MMD -MP
 
-BIN_DIR=./bin
-SRC_DIR=./src
-INC_DIR=./inc
-FT_BIN_DIR=./bin/ft
-GET_NEXT_BIN_DIR=./bin/ft_get_next_line
-PRINTF_BIN_DIR=./bin/ft_printf
+BIN_DIR	=./bin
+SRC_DIR	=./src
+INC_DIR	=./inc
 
-FT_DIR 			= ${SRC_DIR}/ft 
-GET_NEXT_DIR 	= ${SRC_DIR}/ft_get_next_line
-FT_PRINTF_DIR 	= ${SRC_DIR}/ft_printf 
+NAME	=libft.a
+CFLAGS	=-Wall -Wextra -Werror -MMD -MP
 
-FT_HDR 			= ${INC_DIR}/libft.h
-GET_NEXT_HDR 	= ${INC_DIR}/ft_get_next_line.h
-FT_PRINTF_HDR 	= ${INC_DIR}/ft_printf.h
+ifdef CSANITIZE
+	SANITIZE_FLAGS = -fsanitize=${CSANITIZE}
+endif 
+
+CFLAGS += ${SANITIZE_FLAGS}
+
+LIBFT_SRC_FILES=	ft_atoi.c			\
+					ft_atol.c			\
+					ft_bzero.c			\
+					ft_calloc.c			\
+					ft_dtoh.c			\
+					ft_iputchar_fd.c	\
+					ft_iputendl_fd.c	\
+					ft_iputnbr_fd.c		\
+					ft_iputstr_fd.c		\
+					ft_isalnum.c		\
+					ft_isalpha.c		\
+					ft_isascii.c		\
+					ft_isdigit.c		\
+					ft_islower.c		\
+					ft_isupper.c		\
+					ft_isprint.c		\
+					ft_itoa.c			\
+					ft_memchr.c			\
+					ft_memcmp.c			\
+					ft_memcpy.c			\
+					ft_memmove.c		\
+					ft_memset.c			\
+					ft_putchar_fd.c		\
+					ft_putendl_fd.c		\
+					ft_putnbr_fd.c		\
+					ft_putstr_fd.c		\
+					ft_sfree.c			\
+					ft_split.c			\
+					ft_strchr.c			\
+					ft_strdup.c			\
+					ft_striteri.c		\
+					ft_strjoin.c		\
+					ft_strlcat.c		\
+					ft_strlcpy.c		\
+					ft_strlen.c			\
+					ft_strmapi.c		\
+					ft_strncmp.c		\
+					ft_strcmp.c			\
+					ft_strnstr.c		\
+					ft_strrchr.c		\
+					ft_istrchr.c 		\
+					ft_strtrim.c		\
+					ft_substr.c			\
+					ft_tolower.c		\
+					ft_toupper.c		\
+					ft_utoa.c
+
+BONUS_SRC_FILES=	ft_lstadd_front_bonus.c	\
+					ft_lstadd_back_bonus.c	\
+					ft_lstclear_bonus.c		\
+					ft_lstdelone_bonus.c	\
+					ft_lstiter_bonus.c		\
+					ft_lstlast_bonus.c		\
+					ft_lstmap_bonus.c		\
+					ft_lstnew_bonus.c		\
+					ft_lstsize_bonus.c		
+
+
+BONUS_OBJ_FILES=$(BONUS_SRC_FILES:%.c=${BIN_DIR}/%.o)
+BONUS_DEP_FILES=$(BONUS_SRC_FILES:%.c=${BIN_DIR}/%.d)
+
+LIBFT_OBJ_FILES=$(LIBFT_SRC_FILES:%.c=${BIN_DIR}/%.o)
+LIBFT_DEP_FILES=$(LIBFT_SRC_FILES:%.c=${BIN_DIR}/%.d)
 
 all:${NAME}
 
-${NAME}: ${BIN_DIR} ${FT_BIN_DIR} ${GET_NEXT_BIN_DIR} ${PRINTF_BIN_DIR} ${BIN_DIR}/ft/ft_utils.a ${BIN_DIR}/ft_get_next_line/ft_get_next_line.a ${BIN_DIR}/ft_printf/ft_printf.a  Makefile	
-#ar -rcsT ${NAME} ${BIN_DIR}/ft/ft_utils.a  ${BIN_DIR}/ft_get_next_line/ft_get_next_line.a ${BIN_DIR}/ft_printf/ft_printf.a	
-#	ar -rcs ${NAME} ${BIN_DIR}/ft/ft_utils.a  ${BIN_DIR}/ft_get_next_line/ft_get_next_line.a ${BIN_DIR}/ft_printf/ft_printf.a	
-	ar -rcs ${NAME} ${BIN_DIR}/ft/*.o  ${BIN_DIR}/ft_get_next_line/*.o ${BIN_DIR}/ft_printf/*.o	
-#	cp ${NAME} ${BIN_DIR}/libft.a
-	
-${BIN_DIR}/ft/ft_utils.a:
-	make all -C ${FT_DIR}
+-include ${LIBFT_DEP_FILES}
+-include ${BONUS_DEP_FILES}
 
-${BIN_DIR}/ft_get_next_line/ft_get_next_line.a: ${BIN_DIR}/ft/ft_utils.a
-	make all -C ${GET_NEXT_DIR}
+${NAME}: ${LIBFT_OBJ_FILES} ${BONUS_OBJ_FILES} ${BIN_DIR}
+	ar -rcs ${NAME} ${LIBFT_OBJ_FILES}
 
-${BIN_DIR}/ft_printf/ft_printf.a: ${BIN_DIR}/ft/ft_utils.a
-	make all -C ${FT_PRINTF_DIR}
-	
 ${BIN_DIR}:
 	mkdir -p ${BIN_DIR}
-
-${FT_BIN_DIR}:
-	mkdir -p ${FT_BIN_DIR}
 	
-${GET_NEXT_BIN_DIR}:
-	mkdir -p ${GET_NEXT_BIN_DIR}
+${BIN_DIR}/%.o:${SRC_DIR}/%.c  Makefile
+	cc ${CFLAGS}  -c $< -I ${INC_DIR}  -o $@ 
 
-${PRINTF_BIN_DIR}:
-	mkdir -p ${PRINTF_BIN_DIR}
-#clean:
-#	make clean -C  ${FT_DIR}
-#	make clean -C  ${GET_NEXT_DIR}
-#	make clean -C  ${FT_PRINTF_DIR}
+clean:
+	rm -f ${BIN_DIR}/*.o
+	rm -f ${BIN_DIR}/*.d
 
-fclean: 
-	make fclean -C  ${FT_DIR}
-	make fclean -C  ${GET_NEXT_DIR}
-	make fclean -C  ${FT_PRINTF_DIR}
-	rm -f ${BIN_DIR}/${NAME}
+fclean: clean 
 	rm -f ${NAME}
 	
 re: fclean all
@@ -74,7 +115,7 @@ re: fclean all
 #	ar -rcs ${NAME} ${LIBFT_OBJ_FILES} ${BONUS_OBJ_FILES}
 #	@touch bonus
 
-#-include ${LIBFT_DEP_FILES}
-#-include ${BONUS_DEP_FILES}
+norm:
+	@norminette | grep Error || true
 
-.PHONY= all clean fclean re
+.PHONY= all clean fclean re norm

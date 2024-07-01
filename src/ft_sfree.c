@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_utils_ptr.h                                     :+:      :+:    :+:   */
+/*   ft_sfree.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 00:10:45 by gabriel           #+#    #+#             */
-/*   Updated: 2024/03/13 00:14:04 by gabriel          ###   ########.fr       */
+/*   Created: 2024/07/01 19:27:23 by gabriel           #+#    #+#             */
+/*   Updated: 2024/07/01 21:07:10 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_UTILS_PTR_H
-# define FT_UTILS_PTR_H
+#include <stddef.h>
+#include <stdarg.h>
+#include <stdlib.h>
 
-void	*ft_ptr_free(void *ptr);
-void	*ft_ptr_char_free_and_null(char **ptr);
-void	*ft_ptr_int_free_and_null(int **ptr);
-void	*ft_matrix_char_free(char **matrix);
-void	*ft_matrix_int_free(int **matrix);
+void	ft_sfree(size_t num_ptrs, ...)
+{
+	va_list	args;
+	void	*ptr;
+	size_t	i;
 
-#endif
+	i = 0;
+	va_start(args, num_ptrs);
+	while (i < num_ptrs)
+	{
+		ptr = va_arg(args, void *);
+		if (ptr != NULL)
+			free (ptr);
+		i++;
+	}
+	va_end(args);
+}
